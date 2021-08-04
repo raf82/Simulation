@@ -1,0 +1,40 @@
+import numpy as np
+from numpy.random import random as rng
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+num_steps = 500
+
+fig = plt.figure()
+ax1 = fig.add_subplot(1,1,1)
+
+samples_x = rng(num_steps)
+samples_y = rng(num_steps)
+flips_x = samples_x < 0.5
+flips_y = samples_y < 0.5
+
+z=[]
+for i in flips_x:
+    if i == True:
+        z.append(1)
+    else:
+        z.append(-1)
+v = []
+for i in flips_y:
+    if i == True:
+        v.append(1)
+    else:
+        v.append(-1)
+
+gx=np.cumsum(z)
+gy=np.cumsum(v)
+
+def animate(i):
+    ax1.clear()
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Random Walk')
+    ax1.scatter(gx, gy)
+
+ani = animation.FuncAnimation(fig, animate,frames=num_steps-1, repeat=False, interval=100)
+plt.show()
